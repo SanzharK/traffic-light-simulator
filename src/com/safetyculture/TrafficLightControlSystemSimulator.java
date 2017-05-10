@@ -51,8 +51,6 @@ public class TrafficLightControlSystemSimulator {
         this.junctions.stream().forEach(junction -> junction.changeLights(cal));
     }
 
-    private boolean readConfig() { return false; }
-
     /**
      * Check:
      *     - junctions is not empty
@@ -86,10 +84,10 @@ public class TrafficLightControlSystemSimulator {
     private void loadProperties() {
         Properties properties = new Properties();
         InputStream inputStream = null;
-        String propertiesFile = "resources/config.properties";
+        String propertiesFile = "config.properties";
 
         try {
-            inputStream = new FileInputStream(propertiesFile);
+            inputStream = getClass().getClassLoader().getResourceAsStream(propertiesFile);
             if(inputStream != null) {
                 properties.load(inputStream);
                 //being optimistic here and not checking the input of the config file.
