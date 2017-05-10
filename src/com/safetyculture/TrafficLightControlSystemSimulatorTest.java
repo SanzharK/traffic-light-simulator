@@ -12,7 +12,7 @@ public class TrafficLightControlSystemSimulatorTest {
 
         Junction junction = new Junction("Boulevard Ave & Main Road crossroad", northLight, southLight, eastLight, westLight);
 
-        TrafficLightControlSystemSimulator simulator = new TrafficLightControlSystemSimulator(10, 5, 30);
+        TrafficLightControlSystemSimulator simulator = new TrafficLightControlSystemSimulator();
         simulator.attachJunction(junction);
         simulator.executeSimulation();
 

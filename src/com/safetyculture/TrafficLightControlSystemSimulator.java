@@ -1,11 +1,12 @@
 package com.safetyculture;
 
+import com.sun.org.apache.xpath.internal.operations.Number;
 import com.sun.tools.javac.tree.JCTree;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * Created by skushekbayev on 10/05/2017.
@@ -18,7 +19,7 @@ public class TrafficLightControlSystemSimulator {
      * - a junction will be able to have at least 2 registered traffic lights
      * - providing a method to attach/detach a junction to the system
      * - sending the main signal to change state at all junctions
-     * - parse a config.properties file to get:
+     * - parse a configuration.properties file to get:
      *                                       - duration of simulation
      *                                       - length of cycle
      *                                       - length of yellow state duration
@@ -31,6 +32,7 @@ public class TrafficLightControlSystemSimulator {
 
     public TrafficLightControlSystemSimulator() {
         this.junctions = new ArrayList<>();
+        loadProperties();
     }
 
     public TrafficLightControlSystemSimulator(int duration, int cycleDuration, int yellowStateDuration) {
@@ -77,9 +79,38 @@ public class TrafficLightControlSystemSimulator {
             this.simulationDuration -= this.cycleDuration;
             changeState(cal);
         }
-
     }
 
 
+    private void loadProperties() {
+        Properties properties = new Properties();
+        InputStream inputStream = null;
+        String propertiesFile = "resources/config.properties";
+
+        try {
+            inputStream = new FileInputStream(propertiesFile);
+            if(inputStream != null) {
+                properties.load(inputStream);
+                //being optimistic here and not checking the input of the config file.
+                this.simulationDuration = Integer.parseInt(properties.getProperty("simulationDuration"));
+                this.cycleDuration = Integer.parseInt(properties.getProperty("cycleDuration"));
+                this.yellowStateDuration = Integer.parseInt(properties.getProperty("yellowStateDuration"));
+            } else
+                System.out.println(propertiesFile + " has not been found");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace();
+        } finally {
+            if(inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
 
 }

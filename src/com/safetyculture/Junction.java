@@ -54,7 +54,7 @@ public class Junction {
     }
 
     public void changeLights(Calendar cal) {
-        // get seconds from config file
+        // get seconds from configuration file
         cal.add(Calendar.SECOND, -30);
         while(!yellowQueue.isEmpty()) {
             yellowQueue.remove().changeLight(cal.getTime());
