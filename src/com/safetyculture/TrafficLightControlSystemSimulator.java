@@ -1,8 +1,5 @@
 package com.safetyculture;
 
-import com.sun.org.apache.xpath.internal.operations.Number;
-import com.sun.tools.javac.tree.JCTree;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,6 +62,10 @@ public class TrafficLightControlSystemSimulator {
      *
      */
     public void executeSimulation() {
+        if(this.junctions.isEmpty()) {
+           System.out.println("Please add at least one junction");
+            return;
+        }
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         // add display format
